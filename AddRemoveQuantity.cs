@@ -15,10 +15,10 @@ namespace Stock_Manager
     
     public partial class AddRemoveQuantity : Form
     {
-        SqlConnection con1 = new SqlConnection("Data Source=MSI\\TESTSERVER;Initial Catalog=Stock_Manager;Integrated Security=True");
         SqlCommand cmd1;
+        SqlCommand cmd2;
         SqlDataReader dr1;
-
+        
         public AddRemoveQuantity()
         {
             InitializeComponent();
@@ -35,60 +35,72 @@ namespace Stock_Manager
 
         private void btnSubmit1_Click(object sender, EventArgs e)
         {
-           try
-           {
+            SqlConnection con1 = new SqlConnection("Data Source=MSI\\TESTSERVER;Initial Catalog=Stock_Manager;Integrated Security=True");
+
+            try
+            {
                //open and close connections, This is missing
                 if (selectAdd.Checked == true) 
                 {
-                    SqlCommand cmd3 = new SqlCommand(" select itemObject from inventory where itemName='"+inputName.Text+"' and stockCode='"+inputCode.Text+"' ", con1);
-                  con1.Open();
-                    using(SqlDataReader reader = cmd3.ExecuteReader())
+                    cmd1 = new SqlCommand("select itemQty from inventory where stockCode=@stockcode and itemName=@itemName ", con1);
+                    cmd1.Parameters.AddWithValue("@stockcode", inputCode.Text);
+                    cmd1.Parameters.AddWithValue("@itemName", inputName.Text);
+                    con1.Open();
+                    int itemQty = Convert.ToInt32(cmd1.ExecuteScalar());
+                    con1.Close();
+
+                    StockItem item = new StockItem(inputCode.Text,inputName.Text, itemQty );
+                    item.AddItem(Convert.ToInt32(textQty.Text));
+
+                    cmd2 = new SqlCommand("UPDATE inventory SET itemQty = @quantity WHERE stockCode=@code and itemName=@name", con1);
+                    cmd2.Parameters.AddWithValue("@code", item.StockCode);
+                    cmd2.Parameters.AddWithValue("@name", item.StockName);
+                    cmd2.Parameters.AddWithValue("@quantity", item.ItemQuantity);
+                    con1.Open();
+                    int rowsAffected = cmd2.ExecuteNonQuery();
+                    if (rowsAffected > 0)
                     {
-                        while(reader.Read())
-                        {
-                            StockItem item = JsonSerializer.Deserialize<StockItem>(reader["itemObject"].ToString());
-                            item.AddItem(item, int.Parse(textQty.Text));
-                            int newQty = item.ItemQuantity;
-                            string itemCode = item.StockCode;
-
-                            string stockItemJSON = JsonSerializer.Serialize(item);
-
-
-
-
-
-                            cmd1 = new SqlCommand("update inventory set itemQty=@itemqty   where stockCode=@stockcode ", con1);
-                           SqlCommand cmd2 = new SqlCommand("update inventory set itemObject=@itemobject   where stockCode=@stockcode", con1);
-
-                            
-                            cmd1.Parameters.AddWithValue("@itemqty", item.ItemQuantity);
-                            cmd2.Parameters.AddWithValue("@itemobject", stockItemJSON);
-                            cmd1.Parameters.AddWithValue("@stockcode", item.StockCode);
-                            cmd2.Parameters.AddWithValue("@stockcode", item.StockCode);
-
-                            con1.Open();
-
-                            int rowsAffected = cmd1.ExecuteNonQuery();
-                            int rowsAffected1=cmd2.ExecuteNonQuery();
-                            con1.Close();
-                            if ((rowsAffected+rowsAffected1) == 2)
-                            {
-                                MessageBox.Show("Item Updated");
-                            }
-                            else
-                            {
-                                MessageBox.Show("Could'nt update item quantity. ");
-                            }
-
-
-                        }
-
+                        MessageBox.Show("Inventory Updated");
+                        con1.Close() ;
                     }
+                    else
+                    {
+                        MessageBox.Show("Failed to Update Inventory. Please try again");
+                        con1.Close();
+                    }
+
 
                 }
                 else if(selectRemove.Checked == true) 
-                { 
-                
+                {
+
+                    cmd1 = new SqlCommand("select itemQty from inventory where stockCode=@stockcode and itemName=@itemName ", con1);
+                    cmd1.Parameters.AddWithValue("@stockcode", inputCode.Text);
+                    cmd1.Parameters.AddWithValue("@itemName", inputName.Text);
+                    con1.Open();
+                    int itemQty = Convert.ToInt32(cmd1.ExecuteScalar());
+                    con1.Close();
+
+                    StockItem item = new StockItem(inputCode.Text, inputName.Text, itemQty);
+                    item.RemoveItem(Convert.ToInt32(textQty.Text));
+
+                    cmd2 = new SqlCommand("UPDATE inventory SET itemQty = @quantity WHERE stockCode=@code and itemName=@name", con1);
+                    cmd2.Parameters.AddWithValue("@code", item.StockCode);
+                    cmd2.Parameters.AddWithValue("@name", item.StockName);
+                    cmd2.Parameters.AddWithValue("@quantity", item.ItemQuantity);
+                    con1.Open();
+                    int rowsAffected = cmd2.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Inventory Updated");
+                        con1.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to Update Inventory. Please try again");
+                        con1.Close();
+                    }
+
                 }
                 else { throw new Exception("Action not selected, please select the action you want to perform."); }
             }
@@ -136,6 +148,7 @@ namespace Stock_Manager
 
         private void updateList()
         {
+            SqlConnection con1 = new SqlConnection("Data Source=MSI\\TESTSERVER;Initial Catalog=Stock_Manager;Integrated Security=True");
 
 
             List<string> itemNameList = new List<string>();

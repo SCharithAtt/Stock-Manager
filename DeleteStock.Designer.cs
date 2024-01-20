@@ -33,25 +33,18 @@ namespace Stock_Manager
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("AAAAAAAAAAAAAAA");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("BBBBBBBBBBBBBBBBBBBBB");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("CCCCCCCCCCCCCCCCC");
-           
-
             this.label1 = new System.Windows.Forms.Label();
             this.btnToDashboard = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnItemName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnItemCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnQuantity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button1 = new System.Windows.Forms.Button();
+            this.btnLoadItems = new System.Windows.Forms.Button();
+            this.lbItems = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(236, 26);
+            this.label1.Location = new System.Drawing.Point(260, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(271, 25);
             this.label1.TabIndex = 1;
@@ -68,57 +61,43 @@ namespace Stock_Manager
             this.btnToDashboard.UseVisualStyleBackColor = true;
             this.btnToDashboard.Click += new System.EventHandler(this.btnToDashboard_Click);
             // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnItemName,
-            this.columnItemCode,
-            this.columnQuantity});
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView1.HideSelection = false;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
-            this.listView1.Location = new System.Drawing.Point(59, 69);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(674, 259);
-            this.listView1.TabIndex = 13;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnItemName
-            // 
-            this.columnItemName.Text = "Item Name";
-            this.columnItemName.Width = 344;
-            // 
-            // columnItemCode
-            // 
-            this.columnItemCode.Text = "Item Code";
-            this.columnItemCode.Width = 97;
-            // 
-            // columnQuantity
-            // 
-            this.columnQuantity.Text = "Available Qunatity";
-            this.columnQuantity.Width = 227;
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(276, 359);
+            this.button1.Location = new System.Drawing.Point(276, 382);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(231, 38);
             this.button1.TabIndex = 14;
             this.button1.Text = "Delete Stock Item";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnLoadItems
+            // 
+            this.btnLoadItems.Location = new System.Drawing.Point(312, 77);
+            this.btnLoadItems.Name = "btnLoadItems";
+            this.btnLoadItems.Size = new System.Drawing.Size(173, 23);
+            this.btnLoadItems.TabIndex = 16;
+            this.btnLoadItems.Text = "Load Stock Items";
+            this.btnLoadItems.UseVisualStyleBackColor = true;
+            this.btnLoadItems.Click += new System.EventHandler(this.btnLoadItems_Click);
+            // 
+            // lbItems
+            // 
+            this.lbItems.FormattingEnabled = true;
+            this.lbItems.ItemHeight = 16;
+            this.lbItems.Location = new System.Drawing.Point(99, 117);
+            this.lbItems.Name = "lbItems";
+            this.lbItems.Size = new System.Drawing.Size(615, 244);
+            this.lbItems.TabIndex = 17;
             // 
             // DeleteStock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lbItems);
+            this.Controls.Add(this.btnLoadItems);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.listView1);
             this.Controls.Add(this.btnToDashboard);
             this.Controls.Add(this.label1);
             this.Name = "DeleteStock";
@@ -132,10 +111,8 @@ namespace Stock_Manager
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnToDashboard;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnItemName;
-        private System.Windows.Forms.ColumnHeader columnItemCode;
-        private System.Windows.Forms.ColumnHeader columnQuantity;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnLoadItems;
+        private System.Windows.Forms.ListBox lbItems;
     }
 }

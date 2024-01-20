@@ -68,35 +68,10 @@ namespace Stock_Manager
                 
                 if (dr1.HasRows==false)
                 {
-                    con1.Close();
-                    StockItem Item = new StockItem(inputCode.Text, inputName.Text, int.Parse(inputQty.Text));
-
-                    string stockItemJSON = JsonSerializer.Serialize(Item);
-
-
-
-
-
-                    cmd1 = new SqlCommand("INSERT INTO inventory ( stockCode, itemName, itemQty, itemObject) VALUES (@stockcode, @itemname, @itemqty,@itemobject)", con1);
-
-                    cmd1.Parameters.AddWithValue("@stockcode", Item.StockCode);
-                    cmd1.Parameters.AddWithValue("@itemname", Item.StockName);
-                    cmd1.Parameters.AddWithValue("@itemqty", Item.ItemQuantity);
-                    cmd1.Parameters.AddWithValue("@itemobject", stockItemJSON);
-
-                    con1.Open();
-
-                    int rowsAffected = cmd1.ExecuteNonQuery();
-                    con1.Close();
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Item Added to Stock. ");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Couldn't Add item to Stock. ");
-                    }
                     
+                    StockItem Item = new StockItem(inputCode.Text, inputName.Text, int.Parse(inputQty.Text));
+                    Item.newItem();
+                    con1.Close();
                 }
                 else
                 {
@@ -124,7 +99,7 @@ namespace Stock_Manager
 
 
             }
-
+            finally { con1.Close(); }
             
 
 

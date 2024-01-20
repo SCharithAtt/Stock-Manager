@@ -1,4 +1,7 @@
-﻿namespace Stock_Manager
+﻿using System.Data.SqlClient;
+using System.Data;
+
+namespace Stock_Manager
 {
     partial class StockLevels
     {
@@ -28,9 +31,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            
             this.label1 = new System.Windows.Forms.Label();
             this.btnToDashboard = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.dgvStockLevels = new System.Windows.Forms.DataGridView();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStockLevels)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -46,7 +52,7 @@
             // btnToDashboard
             // 
             this.btnToDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnToDashboard.Location = new System.Drawing.Point(12, 12);
+            this.btnToDashboard.Location = new System.Drawing.Point(34, 30);
             this.btnToDashboard.Name = "btnToDashboard";
             this.btnToDashboard.Size = new System.Drawing.Size(107, 28);
             this.btnToDashboard.TabIndex = 12;
@@ -54,34 +60,57 @@
             this.btnToDashboard.UseVisualStyleBackColor = true;
             this.btnToDashboard.Click += new System.EventHandler(this.btnToDashboard_Click);
             // 
-            // listView1
+            // dgvStockLevels
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(131, 104);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(533, 290);
-            this.listView1.TabIndex = 13;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.dgvStockLevels.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvStockLevels.Location = new System.Drawing.Point(81, 105);
+            this.dgvStockLevels.Name = "dgvStockLevels";
+            this.dgvStockLevels.RowHeadersWidth = 51;
+            this.dgvStockLevels.RowTemplate.Height = 24;
+            this.dgvStockLevels.Size = new System.Drawing.Size(632, 294);
+            this.dgvStockLevels.TabIndex = 13;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(689, 35);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 15;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // StockLevels
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.dgvStockLevels);
             this.Controls.Add(this.btnToDashboard);
             this.Controls.Add(this.label1);
             this.Name = "StockLevels";
             this.Text = "Stock Levels";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStockLevels)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
+            using (con1)
+            {
+                con1.Open();
+                SqlDataAdapter sqlDA = new SqlDataAdapter("SELECT * FROM inventory", con1);
+                DataTable dt = new DataTable();
+                sqlDA.Fill(dt);
+                dgvStockLevels.DataSource = dt;
+                con1.Close();
+            }
         }
 
         #endregion
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnToDashboard;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.DataGridView dgvStockLevels;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
