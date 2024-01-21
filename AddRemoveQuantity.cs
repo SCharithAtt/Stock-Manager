@@ -46,8 +46,23 @@ namespace Stock_Manager
                     cmd1.Parameters.AddWithValue("@stockcode", inputCode.Text);
                     cmd1.Parameters.AddWithValue("@itemName", inputName.Text);
                     con1.Open();
-                    int itemQty = Convert.ToInt32(cmd1.ExecuteScalar());
+                    object result = cmd1.ExecuteScalar();
                     con1.Close();
+                    int itemQty;
+                    // Check if the result is not null before converting to int
+                    if (result != null)
+                    {
+                        
+                        itemQty = Convert.ToInt32(result);
+                        
+                    }
+                    else
+                    {
+                        // Handle the case where the result is null
+                        throw new Exception("Please Re-Check Entries");
+                    }
+
+
 
                     StockItem item = new StockItem(inputCode.Text,inputName.Text, itemQty );
                     item.AddItem(Convert.ToInt32(textQty.Text));
@@ -78,8 +93,21 @@ namespace Stock_Manager
                     cmd1.Parameters.AddWithValue("@stockcode", inputCode.Text);
                     cmd1.Parameters.AddWithValue("@itemName", inputName.Text);
                     con1.Open();
-                    int itemQty = Convert.ToInt32(cmd1.ExecuteScalar());
+                    object result = cmd1.ExecuteScalar();
                     con1.Close();
+                    int itemQty;
+                    // Check if the result is not null before converting to int
+                    if (result != null)
+                    {
+
+                        itemQty = Convert.ToInt32(result);
+
+                    }
+                    else
+                    {
+                        // Handle the case where the result is null
+                        throw new Exception("Please Re-Check Entries");
+                    }
 
                     StockItem item = new StockItem(inputCode.Text, inputName.Text, itemQty);
                     item.RemoveItem(Convert.ToInt32(textQty.Text));

@@ -92,33 +92,38 @@ namespace Stock_Manager
 
             private void btnLoadItems_Click(object sender, EventArgs e)
         {
-        
-
-            string query = "SELECT stockCode, itemName, itemQty FROM inventory";
-            con1.Open();
-            using (SqlCommand command = new SqlCommand(query, con1))
-            {
-                using (SqlDataReader reader = command.ExecuteReader())
+            try {
+                string query = "SELECT stockCode, itemName, itemQty FROM inventory";
+                con1.Open();
+                using (SqlCommand command = new SqlCommand(query, con1))
                 {
-                    // Clear existing items in the ListBox
-                    lbItems.Items.Clear();
-
-                    // Loop through the results and add each row to the ListBox
-                    while (reader.Read())
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        // Assuming you have a "ID" column in your table
-                        string stockCode = reader.GetString(0);
+                        // Clear existing items in the ListBox
+                        lbItems.Items.Clear();
 
-                        // Assuming you have a "Column1" and "Column2" in your table
-                        string itemName = reader.GetString(1);
-                        int itemQty = reader.GetInt32(2);
+                        // Loop through the results and add each row to the ListBox
+                        while (reader.Read())
+                        {
+                            // Assuming you have a "ID" column in your table
+                            string stockCode = reader.GetString(0);
 
-                        // Add the row to the ListBox
-                        lbItems.Items.Add($"Stock Code: {stockCode} | Item Name: {itemName} | Available Quantity: {itemQty} .");
+                            // Assuming you have a "Column1" and "Column2" in your table
+                            string itemName = reader.GetString(1);
+                            int itemQty = reader.GetInt32(2);
+
+                            // Add the row to the ListBox
+                            lbItems.Items.Add($"Stock Code: {stockCode} | Item Name: {itemName} | Available Quantity: {itemQty} .");
+                        }
                     }
                 }
+                con1.Close();
+
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
-            con1.Close();
+            
 
 
 
