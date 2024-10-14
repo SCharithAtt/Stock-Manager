@@ -9,4 +9,4 @@ This project encompasses the following Use Cases:
  4. Delete a Stock Item.
  5. View Transaction log.
 
- The script for the database is included in the script folder. The App responds to "admin" as both the username and password at log in. In this project, I have utilized ADO.NET along with the SQL Client library to establish a robust connection with the database.
+ The script for the database is included in the script folder. In this project, I have utilized ADO.NET along with the SQL Client library to establish a robust connection with the database.
